@@ -11,8 +11,8 @@ spring:
   application.name: projectBoard1
   datasource:
     url: jdbc:mysql://localhost:3306/board
-    username: root
-    password: 1234
+    username: ams1114
+    password: dnwnd112
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     defer-datasource-initialization: true
