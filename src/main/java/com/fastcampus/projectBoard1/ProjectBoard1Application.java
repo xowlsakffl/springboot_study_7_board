@@ -2,7 +2,9 @@ package com.fastcampus.projectBoard1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
+@ConfigurationPropertiesScan
 @SpringBootApplication
 public class ProjectBoard1Application {
 
