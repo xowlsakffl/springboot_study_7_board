@@ -65,7 +65,7 @@ public class ArticleServiceTest {
 
     @DisplayName("게시글을 조회하면, 게시글을 반환한다")
     @Test
-    public void givenArticleId_whenSearchingArticle_thenReturnArticle() throws Exception{
+    public void givenArticleId_whenSearchingArticle_thenReturnArticle(){
         Long articleId = 1L;
         Article article = createArticle();
         given(articleRepository.findById(articleId)).willReturn(Optional.of(article));
