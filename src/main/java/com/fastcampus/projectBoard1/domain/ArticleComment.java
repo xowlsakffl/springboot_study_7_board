@@ -12,7 +12,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString(callSuper = true)
@@ -29,11 +31,13 @@ public class ArticleComment extends AuditingFields{
 
     @Setter
     @ManyToOne(optional = false)
-    private UserAccount userAccount;
+    private Article article; // 게시글(ID)
 
     @Setter
+    @JoinColumn(name = "userId")
     @ManyToOne(optional = false)
-    private Article article; // 게시글(ID)
+    private UserAccount userAccount;
+
     @Setter
     @Column(nullable = false, length = 500)
     private String content; // 본문
