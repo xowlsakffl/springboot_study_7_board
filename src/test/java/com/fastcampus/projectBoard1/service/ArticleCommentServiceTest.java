@@ -7,6 +7,7 @@ import com.fastcampus.projectBoard1.dto.ArticleCommentDto;
 import com.fastcampus.projectBoard1.dto.UserAccountDto;
 import com.fastcampus.projectBoard1.repository.ArticleCommentRepository;
 import com.fastcampus.projectBoard1.repository.ArticleRepository;
+import com.fastcampus.projectBoard1.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ class ArticleCommentServiceTest {
     @Mock
     private ArticleRepository articleRepository;
 
+    @Mock
+    private UserAccountRepository userAccountRepository;
+
     @DisplayName("게시글 ID로 조회하면, 댓글 리스트를 가져온다.")
     @Test
     public void givenArticleId_whenSearchingArticleComments_thenReturnArticleComments() throws Exception{
@@ -53,15 +57,17 @@ class ArticleCommentServiceTest {
 
     @DisplayName("댓글 정보를 입력하면, 댓글을 저장한다.")
     @Test
-    public void givenArticleCommentInfo_whenInsertingArticleComments_thenReturnArticleComment() throws Exception{
+    public void givenArticleCommentInfo_whenInsertingArticleComments_thenReturnArticleComment(){
         //given
         ArticleCommentDto dto = createArticleCommentDto("댓글");
         given(articleRepository.getReferenceById(dto.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
         given(articleCommentRepository.save(any(ArticleComment.class))).willReturn(null);
         //when
         sut.saveArticleComment(dto);
         //then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
         then(articleCommentRepository).should().save(any(ArticleComment.class));
     }
 
@@ -75,6 +81,7 @@ class ArticleCommentServiceTest {
         sut.saveArticleComment(dto);
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).shouldHaveNoInteractions();
         then(articleCommentRepository).shouldHaveNoInteractions();
     }
     @DisplayName("댓글 정보를 입력하면, 댓글을 수정한다.")
