@@ -33,5 +33,6 @@ Spring Boot
 * QueryDSL 5.0.0
 * Bootstrap 5.2.0-Beta1
 * Heroku
-
-
+  
+## 기술 세부 스택
+* <a href="https://project-board-ams-cc6bfcfdb9b9.herokuapp.com/">https://project-board-ams-cc6bfcfdb9b9.herokuapp.com/</a>
