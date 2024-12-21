@@ -58,11 +58,11 @@ public class ArticleComment extends AuditingFields{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ArticleComment that)) return false;
-        return id == that.id;
+        return this.getId() == that.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(this.getId());
     }
 }

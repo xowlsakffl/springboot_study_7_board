@@ -2,10 +2,9 @@ package com.fastcampus.projectBoard1.controller;
 
 import com.fastcampus.projectBoard1.domain.constant.FormStatus;
 import com.fastcampus.projectBoard1.domain.constant.SearchType;
-import com.fastcampus.projectBoard1.dto.UserAccountDto;
 import com.fastcampus.projectBoard1.dto.request.ArticleRequest;
 import com.fastcampus.projectBoard1.dto.response.ArticleResponse;
-import com.fastcampus.projectBoard1.dto.response.ArticleWithCommentResponse;
+import com.fastcampus.projectBoard1.dto.response.ArticleWithCommentsResponse;
 import com.fastcampus.projectBoard1.dto.security.BoardPrincipal;
 import com.fastcampus.projectBoard1.service.ArticleService;
 import com.fastcampus.projectBoard1.service.PaginationService;
@@ -25,6 +24,7 @@ import java.util.List;
 @RequestMapping("/articles")
 @Controller
 public class ArticleController {
+
     private final ArticleService articleService;
     private final PaginationService paginationService;
 
@@ -41,15 +41,20 @@ public class ArticleController {
         map.addAttribute("articles", articles);
         map.addAttribute("paginationBarNumbers", barNumbers);
         map.addAttribute("searchTypes", SearchType.values());
+        map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
 
         return "articles/index";
     }
 
     @GetMapping("/{articleId}")
     public String article(@PathVariable Long articleId, ModelMap map) {
-        ArticleWithCommentResponse article = ArticleWithCommentResponse.from(articleService.getArticleWithComments(articleId));
+        ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticleWithComments(articleId));
+
         map.addAttribute("article", article);
         map.addAttribute("articleComments", article.articleCommentsResponse());
+        map.addAttribute("totalCount", articleService.getArticleCount());
+        map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
+
         return "articles/detail";
     }
 
@@ -58,7 +63,7 @@ public class ArticleController {
             @RequestParam(required = false) String searchValue,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
-    ){
+    ) {
         Page<ArticleResponse> articles = articleService.searchArticlesViaHashtag(searchValue, pageable).map(ArticleResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
         List<String> hashtags = articleService.getHashtags();
@@ -78,7 +83,7 @@ public class ArticleController {
         return "articles/form";
     }
 
-    @PostMapping ("/form")
+    @PostMapping("/form")
     public String postNewArticle(
             @AuthenticationPrincipal BoardPrincipal boardPrincipal,
             ArticleRequest articleRequest
@@ -113,10 +118,10 @@ public class ArticleController {
     public String deleteArticle(
             @PathVariable Long articleId,
             @AuthenticationPrincipal BoardPrincipal boardPrincipal
-            ) {
-        // TODO: 인증 정보를 넣어줘야 한다.
+    ) {
         articleService.deleteArticle(articleId, boardPrincipal.getUsername());
 
         return "redirect:/articles";
     }
+
 }

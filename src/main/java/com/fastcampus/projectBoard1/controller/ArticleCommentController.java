@@ -1,8 +1,6 @@
 package com.fastcampus.projectBoard1.controller;
 
-import com.fastcampus.projectBoard1.dto.UserAccountDto;
 import com.fastcampus.projectBoard1.dto.request.ArticleCommentRequest;
-import com.fastcampus.projectBoard1.dto.request.ArticleRequest;
 import com.fastcampus.projectBoard1.dto.security.BoardPrincipal;
 import com.fastcampus.projectBoard1.service.ArticleCommentService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/comments")
 @Controller
 public class ArticleCommentController {
+
     private final ArticleCommentService articleCommentService;
 
     @PostMapping("/new")
@@ -38,4 +37,5 @@ public class ArticleCommentController {
 
         return "redirect:/articles/" + articleId;
     }
+
 }
