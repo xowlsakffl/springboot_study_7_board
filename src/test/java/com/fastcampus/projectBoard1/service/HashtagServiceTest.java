@@ -41,8 +41,8 @@ class HashtagServiceTest {
         Set<String> actual = sut.parseHashtagNames(input);
 
         // Then
-        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-        then(hashtagRepository).shouldHaveNoInteractions();
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);// 예상한 컬렉션과 같아야한다(포함되어야한다)
+        then(hashtagRepository).shouldHaveNoInteractions();// hashtagRepository는 상호작용 하는 것이 없다.
     }
 
     static Stream<Arguments> givenContent_whenParsing_thenReturnsUniqueHashtagNamesIgnoringCase() {
