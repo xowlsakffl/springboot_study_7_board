@@ -35,6 +35,7 @@ Spring Boot
 * Heroku
 
 ## ERD
-!(document/project-board-erd.svg)
+![Project Board ERD](document/project-board-erd.svg)
+
 ## 데모 페이지
 * <a href="https://project-board-ams-cc6bfcfdb9b9.herokuapp.com/">https://project-board-ams-cc6bfcfdb9b9.herokuapp.com/</a>
