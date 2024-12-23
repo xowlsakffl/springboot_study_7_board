@@ -8,7 +8,7 @@
 
 * Intellij IDEA Ultimate
 * Java 23
-* Gradle 7.4.1
+* Gradle 8.11.1
 * Spring Boot 3.4.0
 
 ## 기술 세부 스택
@@ -31,7 +31,7 @@ Spring Boot
 그 외
 
 * QueryDSL 5.0.0
-* Bootstrap 5.2.0-Beta1
+* Bootstrap 5.2.0
 * Heroku
 
 ## ERD
