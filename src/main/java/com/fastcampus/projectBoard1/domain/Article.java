@@ -1,16 +1,10 @@
 package com.fastcampus.projectBoard1.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -20,27 +14,23 @@ import java.util.Set;
 @ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList = "title"),
-        @Index(columnList = "hashtag"),
         @Index(columnList = "createdAt"),
-        @Index(columnList = "modifiedAt")
+        @Index(columnList = "createdBy")
 })
 @Entity
-public class Article extends AuditingFields{
+public class Article extends AuditingFields {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Setter
     @JoinColumn(name = "userId")
     @ManyToOne(optional = false)
-    private UserAccount userAccount;
+    private UserAccount userAccount; // 유저 정보 (ID)
 
-    @Setter
-    @Column(nullable = false)
-    private String title; // 제목
-    @Setter
-    @Column(nullable = false, length = 10000)
-    private String content; // 본문
+    @Setter @Column(nullable = false) private String title; // 제목
+    @Setter @Column(nullable = false, length = 10000) private String content; // 본문
 
     @ToString.Exclude
     @JoinTable(
@@ -51,14 +41,17 @@ public class Article extends AuditingFields{
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Hashtag> hashtags = new LinkedHashSet<>();
 
+
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
+
     protected Article() {}
 
     private Article(UserAccount userAccount, String title, String content) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
     }
@@ -83,11 +76,12 @@ public class Article extends AuditingFields{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Article that)) return false;
-        return this.getId() == that.getId();
+        return this.getId() != null && this.getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.getId());
     }
+
 }
