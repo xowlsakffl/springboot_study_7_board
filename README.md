@@ -38,4 +38,7 @@ Spring Boot
 <img src="document/project-board-erd.svg" alt="Project Board ERD" width="75%">
 
 ## 데모 페이지
-* <a href="https://project-board-ams-cc6bfcfdb9b9.herokuapp.com/">https://project-board-ams-cc6bfcfdb9b9.herokuapp.com/</a>
+* <a href="http://54.180.99.138:8080/">http://54.180.99.138:8080/</a>
+
+ID : ams
+PW : asdf1234
